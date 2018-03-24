@@ -1,10 +1,16 @@
-The following project implements Client & Server infrastructure using Java Netty** that allows multiple clients to retrieve/insert data from/to the server using a specific API. The server is a TCP server and supports caching with data persistance to disk.
+The following project implements Client & Server infrastructure using Java Netty** that allows multiple clients to retrieve/insert data 
+from/to the server using a specific API. The server is a TCP server and supports caching with data persistance to disk.
 
-**Java Netty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients.
+**Java Netty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol 
+servers & clients.
 
 How the internals work:
 
-Caching mechanism on the server is thread-safe, it was impelmented using concurrent data structures as well as with read/write locks for more complex procedures. Server cache implements LRU caching scheme, it uses a queue to infer the LRU entries to evict from cache(entries are evicted when cache max size manual threshold is crossed), it stores them in a recently removed collection until a data persisting thread wakes up, check if there is enough evicted entries(using manual threshold) and stores them to disk if necessary, then cleaning the recently removed collection and so on.
+Caching mechanism on the server is thread-safe, it was impelmented using concurrent data structures as well as with read/write locks for 
+more complex procedures. Server cache implements LRU caching scheme, it uses a queue to infer the LRU entries to evict from cache(entries 
+are evicted when cache max size manual threshold is crossed), it stores them in a recently removed collection until a data persisting 
+thread wakes up, check if there is enough evicted entries(using manual threshold) and stores them to disk if necessary, then cleaning the 
+recently removed collection and so on.
 Data persistance mainly rely on built in java serialization mechanism for objects.
 
 Client communicates with the server using STDIN with the following protocol:
