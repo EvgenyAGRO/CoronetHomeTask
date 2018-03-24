@@ -31,3 +31,8 @@ Difficulties I've encountered during the process:
 * Synchronizing the cache with minimum impact on parallelization.
 * Minimizing I/O vs avoiding heavy memory consumption.
 * Getting optimal performance for various operations, such as getallkeys, choosing the right data structure.
+
+Run configuration:
+* To run server > java -jar Server.jar -h <host> -p <port> -f <filepath for data persistance>
+* To run client > java -jar Client.jar -h <host> -p <port>
+* All flags are optional, default values are: -h localhost -p 9999 for both and -f data.ser for server.
