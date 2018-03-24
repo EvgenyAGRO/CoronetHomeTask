@@ -45,7 +45,7 @@ public class Client {
 		}
 	}
 	
-	private static final String DEFAULT_HOSTNAME = "localhost";
+	private static final String DEFAULT_HOST = "localhost";
 	private static final int DEFAULT_PORT_NUMBER = 9999;
 	private ClientConfiguration _clientConfig;
 	
@@ -141,7 +141,6 @@ public class Client {
 		    // If user typed the 'exit' command, wait until the server closes the connection.
 		    else if (cmd.toLowerCase().equals("exit")) {
 		    	System.out.println("Client is terminating...");
-		        channel.getCloseFuture().awaitUninterruptibly();
 		        break;
 		    }
 		    
@@ -217,7 +216,7 @@ public class Client {
 		}
 		
 		// InetSocketAddress class already takes care of proper port numbers and ip formats so no need to check it twice
-		Client newClient = new Client(new ClientConfiguration(parsedArgs.getOptionValue("host", DEFAULT_HOSTNAME), port));
+		Client newClient = new Client(new ClientConfiguration(parsedArgs.getOptionValue("host", DEFAULT_HOST), port));
 		try {
 			newClient.startClient();
 		} catch (IOException e) {

@@ -52,7 +52,7 @@ public class Server {
 		}
 	}
 	
-	private static final String DEFAULT_HOSTNAME = "localhost";
+	private static final String DEFAULT_HOST = "localhost";
 	private static final String DEFAULT_DATA_PERSISTANCE_PATH = "data.ser";
 	private static final int DEFAULT_PORT_NUMBER = 9999;
 	
@@ -103,15 +103,15 @@ public class Server {
 		    }
 		    else if (cmd.toLowerCase().equals("exit")){
 			    lastWriteFuture = serverChannel.write(cmd + "\r\n");
+			    // Wait until all messages are flushed before closing the channel.
+				if (lastWriteFuture != null) {
+				    lastWriteFuture.awaitUninterruptibly();
+				}
 			    System.out.println("Server is terminating...");
+			    //close the channel so all clients will have an indication that the server is down and terminate
 			    serverChannel.close();
 		    	break;
 		    }  
-		}
-		
-		// Wait until all messages are flushed before closing the channel.
-		if (lastWriteFuture != null) {
-		    lastWriteFuture.awaitUninterruptibly();
 		}
 		
 		// Wait until the server socket is closed.
@@ -177,7 +177,7 @@ public class Server {
 		}
 		
 		// InetSocketAddress class already takes care of proper port numbers and ip formats so no need to check it twice
-		Server newServ = new Server(new ServerConfiguration(parsedArgs.getOptionValue("host", DEFAULT_HOSTNAME), port, 
+		Server newServ = new Server(new ServerConfiguration(parsedArgs.getOptionValue("host", DEFAULT_HOST), port, 
 				parsedArgs.getOptionValue("file", DEFAULT_DATA_PERSISTANCE_PATH)));
 		try {
 			newServ.startServer();
